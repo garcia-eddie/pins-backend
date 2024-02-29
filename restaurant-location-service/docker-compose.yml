@@ -1,11 +1,12 @@
 version: '3.9'
 name: restaurant-location-service
 services:
-  api:
+  restaurant-location-api:
     container_name: restaurant-location-api
-    hostname: restaurant-location-api
+    image: pins/restaurant-location-api
     depends_on:
-      - database
+      restaurant-location-db:
+        condition: service_healthy
     networks:
       - restaurant-location-net
     ports:
@@ -16,28 +17,43 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_PORT=${DB_PORT}
 
-  database:
-    container_name: restaurant-location-database
-    hostname: restaurant-location-database
+  restaurant-location-db:
+    container_name: restaurant-location-db
+    image: pins/restaurant-location-db
     networks:
       - restaurant-location-net
     ports:
       - "5432:5432"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U devuser -d restaurant_location_db"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     build:
       context: .
       dockerfile: Dockerfile.db
     restart: always
     volumes:
       - ./database:/docker-entrypoint-initdb.d/
-      - restaurant-location-database-vol:/var/lib/postgresql/database
+      - restaurant-location-db-vol:/var/lib/postgresql/database
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
 
 volumes:
-  restaurant-location-database-vol:
+  restaurant-location-db-vol:
 
 
 networks:

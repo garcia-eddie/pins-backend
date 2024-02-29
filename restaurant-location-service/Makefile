@@ -1,10 +1,10 @@
 
 # Restaurant Location Service ----------
 
-up-all:
+up:
 	docker-compose up --build
 
-down-all:
+down:
 	docker-compose down --volumes --remove-orphans
 
 # API ----------------------------------
