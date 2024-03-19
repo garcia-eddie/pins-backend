@@ -1,6 +1,6 @@
 from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
-import json
+
 
 from . import crud, models, schemas
 from .database import SessionLocal, engine
@@ -18,15 +18,17 @@ def get_db():
         db.close()
 
 
+@app.get("/pins")
+def get_pins(db: Session = Depends(get_db)):
+    rs = crud.get_all(db)
+    response = [schemas.RLocation.from_orm(res) for res in rs]
+    return response
+
+
 @app.put("/coords")
 def create_coords(location: schemas.Location):
     print(location)
     return {"Hello": "World"}
-
-
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
 
 
 @app.post("/", response_model=schemas.RLocation)
