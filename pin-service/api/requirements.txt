@@ -5,3 +5,4 @@ geoalchemy2
 shapely
 geojson
 psycopg2-binary
+alembic
