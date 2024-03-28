@@ -3,7 +3,7 @@ from .database import Base
 from geoalchemy2 import Geometry
 
 
-class PinModel(Base):
+class Pin(Base):
     __tablename__ = "pin"
     id = Column(Integer, primary_key=True)
     name = Column(String)

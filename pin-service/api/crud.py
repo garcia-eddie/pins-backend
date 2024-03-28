@@ -4,22 +4,22 @@ from geoalchemy2 import WKTElement
 from typing import List
 
 
-def get_all(db: Session) -> List[models.PinModel]:
-    return db.query(models.PinModel)
+def get_all(db: Session) -> List[models.Pin]:
+    return db.query(models.Pin)
 
 
-def get_pin(db: Session, name: str) -> models.PinModel:
-    return db.query(models.PinModel) \
-        .filter(models.PinModel.name == name) \
+def get_pin(db: Session, name: str) -> models.Pin:
+    return db.query(models.Pin) \
+        .filter(models.Pin.name == name) \
         .first()
 
 
-def create_pin(db: Session, pin: schemas.PinBase) -> models.PinModel:
+def create_pin(db: Session, pin: schemas.PinBase) -> models.Pin:
     point = WKTElement(
         f'POINT({pin.coordinates[0]} {pin.coordinates[1]})',
         srid=4326
     )
-    db_item = models.PinModel(name=pin.name, geom=point)
+    db_item = models.Pin(name=pin.name, geom=point)
 
     db.add(db_item)
     db.commit()
