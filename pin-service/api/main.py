@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-
 from . import models
-from .database import engine
 from .routers import maps, pins
+from .database.database import engine
 
 app = FastAPI()
 app.include_router(maps.router)
