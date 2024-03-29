@@ -2,7 +2,7 @@ from geoalchemy2 import WKTElement
 from sqlalchemy.orm import Session
 from typing import List
 from .models import Pin
-from ..schemas import PinBase as BasePinSchema
+from ..schemas.schema_pin import CreatePinRequest
 
 
 def get_all_pins(db: Session) -> List[Pin]:
@@ -15,7 +15,7 @@ def get_pin(db: Session, name: str) -> Pin:
         .first()
 
 
-def create_pin(db: Session, pin: BasePinSchema) -> Pin:
+def create_pin(db: Session, pin: CreatePinRequest) -> Pin:
     point = WKTElement(
         f'POINT({pin.coordinates[0]} {pin.coordinates[1]})',
         srid=4326
