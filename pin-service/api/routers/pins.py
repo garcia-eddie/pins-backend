@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from ..database import db_pin
@@ -16,6 +16,8 @@ router = APIRouter(
 @router.post("/", response_model=PinResponse)
 def create_pin(pin: CreatePinRequest, db: Session = Depends(get_db)):
     rs = db_pin.create_pin(db, pin)
+    if not rs:
+        raise HTTPException(status_code=404, detail="Pin Not Created")
     response = PinResponse.from_orm(rs)
     return response
 
@@ -23,5 +25,7 @@ def create_pin(pin: CreatePinRequest, db: Session = Depends(get_db)):
 @router.get("/", response_model=List[PinResponse])
 def get_pins(db: Session = Depends(get_db)):
     rs = db_pin.get_all_pins(db)
+    if not rs:
+        raise HTTPException(status_code=500, detail="Internal Server Error")
     response = [PinResponse.from_orm(res) for res in rs]
     return response

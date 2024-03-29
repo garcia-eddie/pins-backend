@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from ..database import db_map
@@ -16,6 +16,8 @@ router = APIRouter(
 @router.post("/", response_model=MapResponse)
 def create_map(map: CreateMapRequest, db: Session = Depends(get_db)):
     rs = db_map.create_map(db, map)
+    if not rs:
+        raise HTTPException(status_code=404, detail="Map Not Created")
     response = MapResponse.from_orm(rs)
     return response
 
@@ -23,6 +25,8 @@ def create_map(map: CreateMapRequest, db: Session = Depends(get_db)):
 @router.get("/{map_id}", response_model=MapResponse)
 def get_map(map_id: int, db: Session = Depends(get_db)):
     rs = db_map.get_map(db, map_id)
+    if not rs:
+        raise HTTPException(status_code=404, detail="Map Not Found")
     response = MapResponse.from_orm(rs)
     return response
 
@@ -30,5 +34,7 @@ def get_map(map_id: int, db: Session = Depends(get_db)):
 @router.get("/", response_model=List[MapResponse])
 def get_maps(db: Session = Depends(get_db)):
     rs = db_map.get_all_maps(db)
+    if not rs:
+        raise HTTPException(status_code=500, detail="Internal Server Error")
     response = [MapResponse.from_orm(res) for res in rs]
     return response
