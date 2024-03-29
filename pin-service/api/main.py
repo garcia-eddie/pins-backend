@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from . import models
 from .routers import maps, pins
+from .database import models
 from .database.database import engine
 
 app = FastAPI()
