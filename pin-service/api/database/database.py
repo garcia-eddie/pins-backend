@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
+from .models import Base
 
 
 DB_HOST = os.environ.get('DB_HOST')
@@ -21,3 +22,6 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+Base.metadata.create_all(bind=engine)
