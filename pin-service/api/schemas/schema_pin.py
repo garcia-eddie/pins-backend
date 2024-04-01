@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from geoalchemy2.shape import to_shape
-from ..database.models import Pin
+
+from api.database.models import Pin
 
 
 class PinBase(BaseModel):

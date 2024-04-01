@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 from typing import List
-from .schema_pin import PinResponse
-from ..database.models import Map
+
+from api.database.models import Map
+from api.schemas.schema_pin import PinResponse
 
 
 class MapBase(BaseModel):

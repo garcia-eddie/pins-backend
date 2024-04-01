@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from ..database import db_pin
-from ..database.database import get_db
-from ..schemas.schema_pin import CreatePinRequest, PinResponse
+
+from api.database import db_pin
+from api.database.database import get_db
+from api.schemas.schema_pin import CreatePinRequest, PinResponse
 
 
 router = APIRouter(

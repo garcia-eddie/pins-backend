@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from typing import List
-from .models import Map
-from ..schemas.schema_map import CreateMapRequest
+
+from api.database.models import Map
+from api.schemas.schema_map import CreateMapRequest
 
 
 def get_map(db: Session, id: int) -> Map:

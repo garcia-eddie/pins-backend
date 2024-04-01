@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from ..database import db_map
-from ..database.database import get_db
-from ..schemas.schema_map import CreateMapRequest, MapResponse
+
+from api.database import db_map
+from api.database.database import get_db
+from api.schemas.schema_map import CreateMapRequest, MapResponse
 
 
 router = APIRouter(
