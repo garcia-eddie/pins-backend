@@ -1,7 +1,8 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import os
-from .models import Base
+
+from api.database.models import Base
 
 
 DB_HOST = os.environ.get('DB_HOST')

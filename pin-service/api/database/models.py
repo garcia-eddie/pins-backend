@@ -1,7 +1,7 @@
+from geoalchemy2 import Geometry
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
 from typing import List
-from geoalchemy2 import Geometry
 
 
 class Base(DeclarativeBase):

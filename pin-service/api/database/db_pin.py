@@ -1,8 +1,9 @@
 from geoalchemy2 import WKTElement
 from sqlalchemy.orm import Session
 from typing import List
-from .models import Pin
-from ..schemas.schema_pin import CreatePinRequest
+
+from api.database.models import Pin
+from api.schemas.schema_pin import CreatePinRequest
 
 
 def get_all_pins(db: Session) -> List[Pin]:
