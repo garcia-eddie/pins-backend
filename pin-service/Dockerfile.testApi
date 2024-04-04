@@ -1,0 +1,11 @@
+FROM python:3.11
+
+WORKDIR /pin-service
+
+COPY ./api/requirements.txt /pin-service/api/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /pin-service/api/requirements.txt
+
+COPY ./api /pin-service/api
+
+CMD ["pytest"]

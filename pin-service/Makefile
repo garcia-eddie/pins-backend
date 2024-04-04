@@ -1,13 +1,22 @@
 
-# Pin Service ----------
+# APP ########################################################################
 
 up:
-	docker-compose up --build
+	docker-compose -f docker-compose.yml up --build
 
 down:
-	docker-compose down --volumes --remove-orphans
+	docker-compose -f docker-compose.yml down --volumes --remove-orphans
 
-# API ----------------------------------
+
+# Testing ########################################################################
+
+test-up:
+	docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
+
+test-down:
+	docker-compose -f docker-compose.test.yml down --volumes --remove-orphans
+
+# API ##############################################################################
 
 build-api:
 	docker build -f Dockerfile.api . -t pin-api-image
