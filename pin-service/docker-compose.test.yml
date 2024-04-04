@@ -1,0 +1,52 @@
+version: '3.9'
+name: pins-test
+services:
+  test-pin-api:
+    container_name: pin-test-api
+    image: pins-test/pin-api
+    depends_on:
+      pin-db:
+        condition: service_healthy
+    networks:
+      - pin-test-net
+    build:
+      context: .
+      dockerfile: Dockerfile.testApi
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_PORT=${DB_PORT}
+
+  pin-db:
+    container_name: pin-db
+    image: pins-test/pin-db
+    networks:
+      - pin-test-net
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U devuser -d pin_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    restart: always
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d/
+      - pin-test-db-vol:/var/lib/postgresql/database
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+
+volumes:
+  pin-test-db-vol:
+
+
+networks:
+  pin-test-net:
+    driver: bridge

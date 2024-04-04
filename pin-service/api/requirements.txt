@@ -5,3 +5,6 @@ geoalchemy2
 shapely
 geojson
 psycopg2-binary
+requests
+pytest
+httpx
