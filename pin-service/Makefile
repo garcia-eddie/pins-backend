@@ -10,10 +10,10 @@ down:
 
 # Testing ########################################################################
 
-test-up:
+tests:
 	docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
-test-down:
+tests-down:
 	docker-compose -f docker-compose.test.yml down --volumes --remove-orphans
 
 # API ##############################################################################
