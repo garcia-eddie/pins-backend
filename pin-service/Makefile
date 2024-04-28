@@ -13,7 +13,7 @@ down:
 tests:
 	docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
-tests-down:
+down-tests:
 	docker-compose -f docker-compose.test.yml down --volumes --remove-orphans
 
 # API ##############################################################################
