@@ -170,22 +170,3 @@ def test_get_me(test_db):
                 'id': 1,
                 'username': 'eddie'}
     assert response.json() == expected
-
-
-# def test_me():
-#     response = client.post(
-#         "/token", data={"username": "eddie", "password": "12345"})
-#     assert response.status_code == 200
-
-#     accessToken = response.json()["access_token"]
-
-#     response = client.get("/me", headers={
-#         "Authorization": f"Bearer {accessToken}"
-#     })
-#     assert response.status_code == 200
-#     assert response.json() == {
-#         "username": "eddie",
-#         "email": None,
-#         "disabled": False,
-#         "hashed_password": "HASH12345"
-#     }
