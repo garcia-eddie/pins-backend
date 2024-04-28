@@ -8,8 +8,6 @@ def get_active_user(db: Session, username: str) -> User:
     return db.query(User) \
         .filter(User.username == username) \
         .first()
-    # .filter(not User.disabled) \
-    # .first()
 
 
 def create_user(db: Session, user: CreateUserRequest) -> User:
