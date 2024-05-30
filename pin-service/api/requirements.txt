@@ -9,3 +9,6 @@ requests
 pytest
 httpx
 python-multipart
+pyjwt
+python-jose[cryptography]
+passlib[bcrypt]

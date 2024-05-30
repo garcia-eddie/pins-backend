@@ -4,7 +4,7 @@ from api.database.models import User
 from api.schemas.schema_user import CreateUserRequest
 
 
-def get_active_user(db: Session, username: str) -> User:
+def get_user(db: Session, username: str) -> User:
     return db.query(User) \
         .filter(User.username == username) \
         .first()

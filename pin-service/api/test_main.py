@@ -36,5 +36,10 @@ def test_db():
     Base.metadata.drop_all(bind=engine)
 
 
+@fixture
+def test_something():
+    print("fdsa")
+
+
 app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)

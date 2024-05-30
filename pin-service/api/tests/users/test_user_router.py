@@ -14,10 +14,10 @@ def test_create_user(test_db):
 def test_get_login_token_user_does_not_exist(test_db):
     response = client.post(
         "/users/token", data={"username": "eddie", "password": "12345"})
-    assert response.status_code == 400
+    assert response.status_code == 401
     data = response.json()
     assert data["detail"] is not None
-    assert data["detail"] == "Incorrect username"
+    assert data["detail"] == "Incorrect username or password"
 
 
 def test_get_login_token(test_db):
@@ -49,15 +49,10 @@ def test_get_me(test_db):
 
     assert "access_token" in response.json()
     access_token = response.json()["access_token"]
-    assert access_token == "eddie"
     response = client.get(
         "/users/me", headers={"Authorization": f'bearer {access_token}'}
     )
     assert response.status_code == 200
 
-    expected = {'disabled': False,
-                'email': 'test@test.com',
-                'hashed_password': 'HASH12345',
-                'id': 1,
-                'username': 'eddie'}
-    assert response.json() == expected
+    assert 'username' in response.json()
+    assert response.json()['username'] == 'eddie'
