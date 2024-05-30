@@ -4,12 +4,12 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from typing import Annotated
-from pydantic import BaseModel
 
 from api.database import db_user
 from api.database.database import get_db
 from api.database.models import User
-from api.schemas.schema_user import CreateUserRequest, UserBase
+from api.schemas.schema_user import CreateUserRequest
+from api.schemas.schema_token import Token, TokenData
 
 import jwt
 from jwt.exceptions import InvalidTokenError
@@ -26,15 +26,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/token")
-
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    username: str | None = None
 
 
 def create_access_token(
